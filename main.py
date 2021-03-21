@@ -25,12 +25,29 @@ class Student:
         print('Имя:', self.name)
         print('Фамилия:', self.surname)
         total_grade = 0
+        total_count = 0
         for course, grade in self.grades.items():
-            total_grade += sum(grade) / len(self.grades)
-        print('Средняя оценка за домашние задания:', total_grade)
+            total_grade += sum(grade)
+            total_count += len(grade)
+        print('Средняя оценка за домашние задания:', total_grade / total_count)
         print('Курсы в процессе изучения:', self.courses_attached)
         print('Завершенные курсы:', self.courses_attached)
         return chr(10) + chr(13)
+    def __lt__(self, other):
+        if isinstance(other, Student):
+            middle_self = 0
+            count_self = 0
+            middle_other = 0
+            count_other = 0
+            for course in self.grades:
+                middle_self += + sum(self.grades[course])
+                count_self += len(self.grades[course])
+            for course in other.grades:
+                middle_other += sum(other.grades[course])
+                count_other += len(other.grades[course])
+            # print(middle_self / count_self, middle_other / count_other)
+            return middle_self < middle_other
+        return(other.surname, other.name, ' - не является студентом.')
 
 class Mentor:
     def __init__(self, name, surname):
@@ -43,10 +60,31 @@ class Lectuer(Mentor):
         super().__init__(name, surname)
         self.grades = {}
     def __str__(self):
+        middle_grade = 0
+        count_grade = 0
         print('Имя:', self.name)
         print('Фамилия:', self.surname)
-        print('Средняя оценка за лекции:', sum(self.grades)/len(self.grades))
+        for course, grade in self.grades.items():
+            middle_grade += sum(self.grades[course])
+            count_grade += len(self.grades[course])
+        print('Средняя оценка за лекции:', middle_grade / count_grade)
         return chr(10) + chr(13)
+    def __lt__(self, other):
+        if isinstance(other, Lectuer):
+            middle_self = 0
+            count_self = 0
+            middle_other = 0
+            count_other = 0
+            for course in self.grades:
+                middle_self += sum(self.grades[course])
+                count_self += len(self.grades[course])
+            for course in other.grades:
+                middle_other += sum(other.grades[course])
+                count_other += len(other.grades[course])
+            middle_self = middle_self / count_self
+            middle_other = middle_other / count_other
+            return middle_self < middle_other
+        return(other.surname, other.name, ' - не является лектором.')
 
 class Reviewer(Mentor):
     def rate_hw(self, student, course, grade):
@@ -114,14 +152,15 @@ Reviewer_2.rate_hw(student_2, 'Python', 10)
 
 # str(student_1)
 # str(student_2)
-#
 # str(Reviewer_1)
 # str(Reviewer_2)
-#
 # str(lectuer_1)
 # str(lectuer_2)
 
-print(middle_grade([student_1, student_2], 'Python'))
-print(middle_grade([student_1, student_2], 'Java'))
-print(middle_grade([lectuer_1, lectuer_2], 'Python'))
-print(middle_grade([lectuer_1, lectuer_2], 'Java'))
+# print(middle_grade([student_1, student_2], 'Python'))
+# print(middle_grade([student_1, student_2], 'Java'))
+# print(middle_grade([lectuer_1, lectuer_2], 'Python'))
+# print(middle_grade([lectuer_1, lectuer_2], 'Java'))
+
+print(lectuer_1 > lectuer_2)
+print(student_1 < student_2)
