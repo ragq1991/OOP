@@ -7,6 +7,7 @@ class Student:
         self.finished_courses = []
         self.courses_attached = []
         self.grades = {}
+
     def rate_lectuer(self, lectuer, course, grade):
         if grade > 10 or grade < 0:
             return 'Оценку можно выставлять только по 10-балльной шкале'
@@ -21,6 +22,7 @@ class Student:
                 return 'Лектор ' + lectuer.surname + ' ' + lectuer.name + ' не преподает курс "' + course + '"'
             return 'Вы не проходили курс "' + course + '"'
         return 'Объект ' + lectuer + ' не является объектом класса Lectuer'
+
     def __str__(self):
         print('Имя:', self.name)
         print('Фамилия:', self.surname)
@@ -33,6 +35,7 @@ class Student:
         print('Курсы в процессе изучения:', self.courses_attached)
         print('Завершенные курсы:', self.courses_attached)
         return chr(10) + chr(13)
+
     def __lt__(self, other):
         if isinstance(other, Student):
             middle_self = 0
@@ -59,6 +62,7 @@ class Lectuer(Mentor):
     def __init__(self, name, surname):
         super().__init__(name, surname)
         self.grades = {}
+
     def __str__(self):
         middle_grade = 0
         count_grade = 0
@@ -69,6 +73,7 @@ class Lectuer(Mentor):
             count_grade += len(self.grades[course])
         print('Средняя оценка за лекции:', middle_grade / count_grade)
         return chr(10) + chr(13)
+
     def __lt__(self, other):
         if isinstance(other, Lectuer):
             middle_self = 0
@@ -99,6 +104,7 @@ class Reviewer(Mentor):
                 return 'Студент' + student.surname + ' ' + student.name + ' не проходит курс "' + course + '"'
             return 'Эксперт ' + self.surname + ' ' + self.name + ' не закреплен за курсом "' + course + '"'
         return 'Объект ' + student + ' не является объектом класса Student'
+
     def __str__(self):
         print('Имя:', self.name)
         print('Фамилия:', self.surname)
